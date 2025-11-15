@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Barangay Home-based Business Marketplace{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+    <div class="bg-white border-2 border-black rounded-lg shadow-lg p-6 sm:p-8">
+        <h2 class="text-2xl font-hand font-bold text-black mb-6 text-center">
+            <i class="fas fa-sign-in-alt mr-2 text-black"></i>
+            Login
+        </h2>
+        
+        <form id="loginForm" class="space-y-4">
+            <div>
+                <label for="email" class="block text-sm font-medium text-black mb-2 font-hand">
+                    Email Address
+                </label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email"
+                    required
+                    class="w-full px-4 py-3 border-2 border-black rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-base font-sans"
+                    placeholder="your@email.com"
+                >
+            </div>
+            
+            <div>
+                <label for="password" class="block text-sm font-medium text-black mb-2 font-hand">
+                    Password
+                </label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password"
+                    required
+                    class="w-full px-4 py-3 border-2 border-black rounded-lg focus:ring-2 focus:ring-black focus:border-transparent text-base font-sans"
+                    placeholder="Enter your password"
+                >
+            </div>
+            
+            <button 
+                type="submit"
+                class="w-full bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 focus:ring-2 focus:ring-black focus:ring-offset-2 transition-colors duration-200 font-hand font-bold text-lg"
+            >
+                <i class="fas fa-sign-in-alt mr-2"></i>
+                Login
+            </button>
+        </form>
+        
+        <div class="mt-4 text-center">
+            <p class="text-sm text-gray-600 font-sans">
+                Don't have an account? 
+                <a href="/register" class="text-black hover:underline font-medium font-hand">Register here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    
+    try {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+            const result = await response.json();
+            localStorage.setItem('access_token', result.access_token);
+            window.location.href = '/';
+        } else {
+            const error = await response.json();
+            alert(error.detail || 'Login failed');
+        }
+    } catch (error) {
+        alert('An error occurred. Please try again.');
+    }
+});
+</script>
+{% endblock %}
+

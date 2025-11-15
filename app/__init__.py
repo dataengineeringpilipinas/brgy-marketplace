@@ -1,0 +1,2 @@
+"""Barangay Marketplace Application"""
+

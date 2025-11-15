@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Barangay Home-based Business Marketplace{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#000000',
+                        secondary: '#6B7280',
+                        accent: '#000000',
+                        danger: '#000000'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'hand': ['Kalam', 'cursive', 'system-ui']
+                    }
+                }
+            }
+        }
+    </script>
+    {% block head %}{% endblock %}
+</head>
+<body class="h-full bg-gray-50 font-sans">
+    <div class="min-h-full">
+        <!-- Navigation -->
+        <nav class="bg-white border-b-2 border-black">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex items-center">
+                        <a href="/" class="text-2xl font-hand font-bold text-black flex items-center">
+                            <i class="fas fa-store mr-2"></i>
+                            Barangay Home-based Business Marketplace
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        {% if current_user %}
+                        <a href="/orders" class="text-black hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium font-hand">
+                            My Orders
+                        </a>
+                        <a href="/businesses" class="text-black hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium font-hand">
+                            Businesses
+                        </a>
+                        {% if current_user.role == "admin" %}
+                        <a href="/dashboard" class="text-black hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium font-hand">
+                            Dashboard
+                        </a>
+                        {% endif %}
+                        <span class="text-black px-3 py-2 text-sm font-hand">{{ current_user.full_name }}</span>
+                        <a href="/api/auth/logout" class="bg-black text-white px-4 py-2 rounded-md text-sm font-hand hover:bg-gray-800">
+                            Logout
+                        </a>
+                        {% else %}
+                        <a href="/login" class="text-black hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium font-hand">
+                            Login
+                        </a>
+                        <a href="/register" class="bg-black text-white px-4 py-2 rounded-md text-sm font-hand hover:bg-gray-800">
+                            Register
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {% block content %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t-2 border-black py-8 mt-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center space-y-4">
+                    <div class="text-sm text-gray-600 font-sans">
+                        <p>Barangay Home-Based Business Marketplace</p>
+                    </div>
+                    <div class="text-sm text-black font-hand">
+                        <p>A <a href="https://vibecamp.au/" target="_blank" class="text-black hover:underline font-bold">Vibecamp</a> Creation</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
+
